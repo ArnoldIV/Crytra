@@ -1,10 +1,9 @@
 package com.taras.pet.crytra.crypto.presentation
 
 import android.icu.text.NumberFormat
-import android.icu.text.NumberingSystem
 import androidx.annotation.DrawableRes
 import com.taras.pet.crytra.crypto.domain.Coin
-import com.taras.pet.crytra.util.getDrawableIdForCoin
+import com.taras.pet.crytra.core.presentation.util.getDrawableIdForCoin
 import java.util.Locale
 
 data class CoinUi(

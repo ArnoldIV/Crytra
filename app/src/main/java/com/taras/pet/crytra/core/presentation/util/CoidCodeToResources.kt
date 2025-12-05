@@ -1,4 +1,4 @@
-package com.taras.pet.crytra.util
+package com.taras.pet.crytra.core.presentation.util
 
 import com.taras.pet.crytra.R
 
