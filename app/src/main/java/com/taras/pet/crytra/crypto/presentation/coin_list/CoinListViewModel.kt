@@ -27,8 +27,8 @@ class CoinListViewModel(
             CoinListState()
         )
 
-    fun onAction(action: CoinListAction){
-        when(action){
+    fun onAction(action: CoinListAction) {
+        when (action) {
             is CoinListAction.OnCoinClick -> {
 
             }
