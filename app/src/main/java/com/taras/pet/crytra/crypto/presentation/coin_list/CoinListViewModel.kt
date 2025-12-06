@@ -6,9 +6,11 @@ import com.taras.pet.crytra.core.domain.util.onError
 import com.taras.pet.crytra.core.domain.util.onSuccess
 import com.taras.pet.crytra.crypto.domain.CoinDataSource
 import com.taras.pet.crytra.crypto.presentation.toCoinUi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,6 +28,9 @@ class CoinListViewModel(
             SharingStarted.WhileSubscribed(5000L),
             CoinListState()
         )
+
+    private val _events = Channel<CoinListEvent>()
+    val events = _events.receiveAsFlow()
 
     fun onAction(action: CoinListAction) {
         when (action) {
@@ -63,6 +68,7 @@ class CoinListViewModel(
                             isLoading = false,
                         )
                     }
+                    _events.send(CoinListEvent.Error(error))
                 }
         }
     }
