@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.taras.pet.crytra.core.presentation.util.ObserveAsEvents
 import com.taras.pet.crytra.core.presentation.util.toString
+import com.taras.pet.crytra.crypto.presentation.coin_detail.CoinDetailsScreen
 import com.taras.pet.crytra.crypto.presentation.coin_list.CoinListEvent
 import com.taras.pet.crytra.crypto.presentation.coin_list.CoinListScreen
 import com.taras.pet.crytra.crypto.presentation.coin_list.CoinListViewModel
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     val viewModel = koinViewModel<CoinListViewModel>()
                     val state by viewModel.state.collectAsStateWithLifecycle()
                     val context = LocalContext.current
-                    ObserveAsEvents(events = viewModel.events){ event ->
+                    ObserveAsEvents(events = viewModel.events) { event ->
                         when (event) {
                             is CoinListEvent.Error -> {
                                 Toast.makeText(
@@ -43,10 +44,22 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    CoinListScreen(
-                        state = state,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    when {
+                        state.selectedCoin != null -> {
+                            CoinDetailsScreen(
+                                state = state,
+                                modifier = Modifier.padding(innerPadding)
+                            )
+                        }
+
+                        else -> {
+                            CoinListScreen(
+                                state = state,
+                                modifier = Modifier.padding(innerPadding),
+                                onAction = viewModel::onAction
+                            )
+                        }
+                    }
                 }
             }
         }
