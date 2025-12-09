@@ -97,7 +97,8 @@ class CoinListViewModel(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    isLoading = true
+                    isLoading = true,
+                    isInitialLoading = it.coins.isEmpty()
                 )
             }
 
@@ -107,7 +108,8 @@ class CoinListViewModel(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            coins = coins.map { it.toCoinUi() }
+                            coins = coins.map { it.toCoinUi() },
+                            isInitialLoading = false
                         )
                     }
                 }
@@ -115,6 +117,7 @@ class CoinListViewModel(
                     _state.update {
                         it.copy(
                             isLoading = false,
+                            isInitialLoading = false
                         )
                     }
                     _events.send(CoinListEvent.Error(error))
